@@ -1,16 +1,44 @@
 import React from 'react';
+import { ITarefa } from '../../types/task';
 import Button from '../Button';
 import style from './form.module.scss'
+import { v4 as uuidv4 } from 'uuid';
 
-class Form extends React.Component {
+class Form extends React.Component<{
+    setTask: React.Dispatch<React.SetStateAction<ITarefa[]>>
+}> {
+    state = {
+        task: "",
+        time: "00:00"
+    }
+
+    adicionarTarefa(event: React.FormEvent) {
+        event.preventDefault();
+        this.props.setTask(
+            tarefasAntigas => 
+            [
+                ...tarefasAntigas, 
+                { 
+                    ...this.state,
+                    selecionado: false,
+                    completado: false,
+                    id: uuidv4()
+                }]);
+        this.setState({
+            task: "",
+            time: "00:00"
+        })
+    }
     render() {
         return (
-            <form className={style.novaTarefa}>
+            <form className={style.novaTarefa} onSubmit={this.adicionarTarefa}>
                 <section className={style.inputContainer}>
                     <label htmlFor="tarefa">Tarefa</label>
                     <input 
                     type="text"
                     name="tarefa"
+                    value={this.state.task}
+                    onChange={evento => this.setState({...this.state, task: evento.target.value})}
                     id="tarefa"
                     placeholder="O que você quer estudar"
                     required />
@@ -22,13 +50,13 @@ class Form extends React.Component {
                     step="1"
                     name="tempo"
                     id="tempo"
-                    min="00:00:00"
-                    max="01:30:00"
+                    value={this.state.time}
+                    onChange={evento => this.setState({...this.state, time: evento.target.value})}
                     required
                      />
                 </section>
                 <footer>
-                    <Button>
+                    <Button type="submit">
                         Adicionar
                     </Button>
                 </footer>
