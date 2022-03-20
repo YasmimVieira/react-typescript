@@ -28,7 +28,9 @@ class Form extends React.Component {
                      />
                 </section>
                 <footer>
-                    <Button />
+                    <Button>
+                        Adicionar
+                    </Button>
                 </footer>
             </form>
         )
