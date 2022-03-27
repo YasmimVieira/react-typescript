@@ -31,7 +31,7 @@ class Form extends React.Component<{
     }
     render() {
         return (
-            <form className={style.novaTarefa} onSubmit={this.adicionarTarefa}>
+            <form className={style.novaTarefa} onSubmit={this.adicionarTarefa.bind(this)}>
                 <section className={style.inputContainer}>
                     <label htmlFor="tarefa">Tarefa</label>
                     <input 
@@ -52,6 +52,8 @@ class Form extends React.Component<{
                     id="tempo"
                     value={this.state.time}
                     onChange={evento => this.setState({...this.state, time: evento.target.value})}
+                    min="00:00:00"
+                    max="01:30:00"
                     required
                      />
                 </section>
